@@ -1,3 +1,9 @@
+## Notice
+
+This build modified by Waitman Gobble for FreeBSD install. Removed autotools build and replaced with BSD Makefile.
+
+
+
 [![Build Status](https://travis-ci.org/mongodb/mongo-php-driver.png?branch=master)](https://travis-ci.org/mongodb/mongo-php-driver)
 
 ## Installation
