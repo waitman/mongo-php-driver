@@ -2,8 +2,9 @@ CC?=			clang
 CFLAGS?=		-g -O2
 INCLUDE_PATHS=	-I./ -I./util -I./exceptions -I./gridfs -I./types -I./mcon
 LOCAL_INCLUDE_PATHS=	-I$(PREFIX)/include/php -I$(PREFIX)/include/php/main -I$(PREFIX)/include/php/TSRM -I$(PREFIX)/include/php/Zend -I$(PREFIX)/include/php/ext -I$(PREFIX)/include/php/ext/date/lib/
-COPTS=			-DPHP_ATOM_INC -DHAVE_CONFIG_H -fPIC -DPIC
+COPTS=			-DPHP_ATOM_INC -DHAVE_CONFIG_H -DCOMPILE_DL_MONGO -fPIC -DPIC
 COMPILE=		$(CC) -c $(CFLAGS) $(COPTS) $(INCLUDE_PATHS) $(LOCAL_INCLUDE_PATHS)
+LIB_LIST=		bson.o collection.o connection_exception.o cursor.o cursor_exception.o cursor_timeout_exception.o db.o exception.o gridfs.o gridfs_cursor.o gridfs_exception.o gridfs_file.o gridfs_stream.o io_stream.o log_stream.o mcon_bson_helpers.o mcon_collection.o mcon_connections.o mcon_io.o mcon_manager.o mcon_mini_bson.o mcon_parse.o mcon_read_preference.o mcon_str.o mcon_utils.o mongo.o mongoclient.o php_mongo.o result_exception.o types_bin_data.o types_code.o types_date.o types_db_ref.o types_id.o types_int32.o types_int64.o types_regex.o types_timestamp.o util_log.o util_pool.o
 PHP_EXT_DIR=	$(PREFIX)/lib/php/extensions/no-debug-non-zts-20100525
 INSTALL?=		install
 
@@ -56,7 +57,7 @@ php_mongo:
 	$(COMPILE) mcon/str.c -o mcon_str.o
 	$(COMPILE) mcon/utils.c -o mcon_utils.o
 
-	$(CC) -shared -Wl,-soname -Wl,mongo.so -o mongo.so
+	$(CC) -shared -Wl,-soname -Wl,mongo.so $(LIB_LIST) -o mongo.so
 
 install:
 	$(INSTALL) -m 644 mongo.so $(PHP_EXT_DIR)/
